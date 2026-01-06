@@ -1,0 +1,52 @@
+{
+  "knowledge_base": {
+    "recent_genres": ["lofi", "jazz", "ambient"],
+    "recent_tracks": [
+      {"title": "Midnight Vibes", "genre": "lofi", "timestamp": "2026-01-05"},
+      {"title": "Smooth Jazz", "genre": "jazz", "timestamp": "2026-01-05"}
+    ],
+    "mood_by_time": {
+      "morning": ["uplifting", "energetic", "happy"],
+      "afternoon": ["focused", "calm", "productive"],
+      "evening": ["relaxing", "dreamy", "chill"]
+    },
+    "genre_characteristics": {
+      "pop": {"tempo": 120, "mood": "happy", "popularity": 0.9},
+      "electronic": {"tempo": 140, "mood": "energetic", "popularity": 0.85},
+      "lofi": {"tempo": 80, "mood": "calm", "popularity": 0.95},
+      "jazz": {"tempo": 110, "mood": "sophisticated", "popularity": 0.7},
+      "classical": {"tempo": 90, "mood": "elegant", "popularity": 0.6}
+    },
+    "marketing_templates": [
+      {
+        "pattern": "🎵 New {genre} track: {title}! Perfect for {mood} moments. #Music #{genre}",
+        "engagement": 850,
+        "best_time": "9am"
+      },
+      {
+        "pattern": "Fresh {genre} vibes 🔥\n\n'{title}'\n\nStream now! #{genre} #NewMusic",
+        "engagement": 720,
+        "best_time": "12pm"
+      },
+      {
+        "pattern": "Feeling {mood}? We got you 🎧\n\nCheck out: {title}\n\n#{genre} #{mood}Music",
+        "engagement": 650,
+        "best_time": "6pm"
+      }
+    ],
+    "hashtags_by_genre": {
+      "pop": ["#Pop", "#PopMusic", "#NewPop"],
+      "electronic": ["#Electronic", "#EDM", "#ElectronicMusic"],
+      "lofi": ["#Lofi", "#LofiHipHop", "#ChillBeats"],
+      "jazz": ["#Jazz", "#JazzMusic", "#SmoothJazz"],
+      "classical": ["#Classical", "#ClassicalMusic", "#Orchestra"]
+    },
+    "users": [
+      {"id": "user1", "email": "alice@example.com", "status": "active", "last_payment": "2026-01-01"},
+      {"id": "user2", "email": "bob@example.com", "status": "active", "last_payment": "2026-01-01"},
+      {"id": "user3", "email": "carol@example.com", "status": "active", "last_payment": "2026-01-01"},
+      {"id": "user4", "email": "dave@example.com", "status": "trial", "last_payment": null},
+      {"id": "user5", "email": "eve@example.com", "status": "active", "last_payment": "2026-01-01"}
+    ]
+  }
+}
