@@ -1,0 +1,13 @@
+# Core Dependencies (Required)
+flask==3.0.0
+requests==2.32.3
+python-dotenv==1.0.0
+
+# AI/ML Dependencies (Optional - requires Python 3.9-3.11)
+# Uncomment if using Python 3.9, 3.10, or 3.11:
+# chromadb==0.4.22
+# langchain==0.1.6
+# langchain-community==0.0.20
+
+# Note: Python 3.14 is too new for some ML packages
+# Recommended: Python 3.11 for full compatibility

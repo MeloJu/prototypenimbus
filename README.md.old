@@ -1,0 +1,321 @@
+
+# Music Generator Company – RAG Prototype
+
+![Music Generator Company](assets/image.png)
+
+## Overview
+
+This repository contains a **proof of concept** created for CloudWalk's **Level 2.3 – Music Generator Company** challenge.
+
+This prototype demonstrates **real RAG implementation** using **Ollama**, **LangChain**, and **ChromaDB** to validate the proposed architecture with production-ready AI technologies.
+
+---
+
+## Scope and Intent
+
+This prototype demonstrates:
+
+* **Real RAG** with ChromaDB vector search
+* **Local LLM** using Ollama (llama2)
+* **LangChain** for prompt engineering and LLM orchestration
+* Multi-agent coordination with AI-powered decision making
+* Clear separation of responsibilities
+* Pragmatic engineering choices
+
+---
+
+## Architecture Decisions
+
+### Real RAG Implementation
+
+This prototype uses **production-ready RAG technologies**:
+
+* **ChromaDB**: Vector database for semantic search and similarity matching
+* **LangChain**: LLM orchestration, prompt templates, and chains
+* **Ollama**: Local LLM inference (llama2 model)
+
+Music generation is simulated, but billing remains deterministic (no AI needed).
+
+---
+
+### RAG Use Cases
+
+**Music Agent**
+
+* Uses **ChromaDB vector search** to find similar tracks
+* **Ollama LLM** generates creative titles, genres, and moods
+* Contextual decision-making based on time of day and recent history
+* Fallback to deterministic logic if LLM fails
+
+**Marketing Agent**
+
+* **Vector search** retrieves best-performing post templates
+* **Ollama LLM** generates engaging social media content
+* Context-aware hashtag selection based on genre
+* Adapts to engagement metrics from knowledge base
+
+**Billing Agent**
+
+* Uses deterministic logic only
+* No AI involved - billing doesn't benefit from LLM reasoning
+
+---
+
+### Knowledge Base
+
+The system uses a **hybrid approach**:
+
+* **ChromaDB vector store**: Semantic search for tracks and marketing templates
+* **Local JSON file**: Base configuration and metadata
+* **Persistent storage**: Vector embeddings persist across runs in `./chroma_db/`
+
+This architecture demonstrates scalable RAG patterns suitable for production.
+
+---
+
+### LLM Integration
+
+**Ollama** provides local LLM inference:
+
+* No API keys or external services required
+* Privacy-preserving (all data stays local)
+* Uses **llama2** model for text generation
+* Fast inference on local hardware
+* Fallback to deterministic generation ensures reliability
+
+---
+
+## System Diagram
+
+```
+┌──────────────────────────────────────────┐
+│     Autonomous Music Company             │
+│   (Ollama + LangChain + ChromaDB)        │
+└──────────────────────────────────────────┘
+              │
+    ┌─────────┼─────────┐
+    │         │         │
+┌───▼───┐ ┌──▼──┐ ┌────▼─────┐
+│ Music │ │Bill │ │Marketing │
+│ Agent │ │Agent│ │  Agent   │
+│ (LLM) │ │(Det)│ │  (LLM)   │
+└───┬───┘ └──┬──┘ └────┬─────┘
+    │        │         │
+    └────────┼─────────┘
+             │
+    ┌────────▼────────┐
+    │   ChromaDB      │
+    │ Vector Store    │
+    │  + JSON Data    │
+    └─────────────────┘
+             │
+    ┌────────▼────────┐
+    │  Ollama LLM     │
+    │   (llama2)      │
+    └─────────────────┘
+```
+
+---
+
+## Running the Application
+
+### Option 1: Docker (Recommended for Production)
+
+```bash
+# Linux/Mac
+./deploy.sh
+
+# Windows PowerShell
+.\deploy.ps1
+```
+
+Access the web interface at http://localhost:5000
+
+### Option 2: Local Development
+
+**Prerequisites:**
+1. Python 3.8+
+2. Ollama (optional): https://ollama.ai
+
+**Setup:**
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Copy environment file
+cp .env.example .env
+
+# Run web interface
+python web_app.py
+```
+
+Access at http://localhost:5000
+
+### Option 3: CLI Mode
+
+```bash
+python main.py
+```
+
+## Features
+
+### Web Interface
+- **Ollama Prompt Interface**: Send custom prompts directly to Ollama
+- **Music Generation**: Generate tracks with one click
+- **Twitter Integration**: Post immediately or schedule tweets
+- **Real-time Status**: Monitor system health and services
+- **Background Scheduler**: Automatic processing of scheduled posts
+
+### Twitter Scheduling
+- Schedule posts for specific times
+- View pending scheduled posts
+- Automatic posting at scheduled times
+- Works in simulation mode without API credentials
+
+### Production Ready
+- Docker deployment with health checks
+- Gunicorn WSGI server
+- Background task scheduler
+- Comprehensive logging
+- Environment-based configuration
+
+## API Endpoints
+
+### Music Generation
+- `POST /api/generate` - Generate new music track
+- `GET /api/status` - System health and status
+
+### Ollama Integration
+- `POST /api/ollama/prompt` - Send custom prompt to Ollama
+  ```json
+  {"prompt": "Your prompt here"}
+  ```
+
+### Marketing
+- `POST /api/marketing/create` - Create marketing post for track
+
+### Twitter
+- `POST /api/twitter/post-now` - Post immediately
+  ```json
+  {"content": "Your tweet"}
+  ```
+- `POST /api/twitter/schedule` - Schedule post
+  ```json
+  {"content": "Your tweet", "scheduled_time": "2026-01-11T14:30:00"}
+  ```
+- `GET /api/twitter/pending` - Get scheduled posts
+- `GET /api/twitter/posted` - Get posted content
+
+### Operations
+- `POST /api/operations/run` - Run all daily operations
+
+Example output:
+
+```
+INFO - Initializing Music Generator Company
+INFO - Initializing agents...
+INFO - All agents initialized successfully
+INFO - Starting daily operations
+INFO - Generating music track
+INFO - Generated track: Bright Flow (electronic)
+INFO - Processing monthly billing
+INFO - Billing processed: $5.00 revenue
+INFO - Creating marketing content
+INFO - Marketing post created for Bright Flow
+
+============================================================
+DAILY OPERATIONS SUMMARY
+============================================================
+
+🎵 Music Generation
+   Track: Bright Flow
+   Genre: electronic
+   Mood: energetic
+   Method: llm
+
+💳 Billing
+   Processed: 5/5 users
+   Revenue: $5.00
+   Failed: 0
+
+📱 Marketing
+   Platform: twitter
+   Post: 🎵 Fresh electronic vibes! Check out 'Bright Flow' 🔥 #Electronic #EDM
+   Scheduled: 9am
+   Engagement Score: 850
+
+============================================================
+✅ Operations completed
+============================================================
+```
+
+See [SETUP.md](SETUP.md) for detailed setup instructions and architecture documentation.
+
+---
+
+## Notes
+
+This prototype demonstrates:
+
+* **Production-ready RAG**: ChromaDB + LangChain architecture
+* **Local-first AI**: Ollama runs entirely on your machine
+* **Context-aware decisions**: Vector search improves agent intelligence
+* **Graceful degradation**: Fallback logic ensures reliability
+* **Scalable patterns**: Architecture suitable for production systems
+
+Technology stack:
+- **Ollama**: Local LLM inference (llama2)
+- **LangChain**: LLM orchestration and prompt management
+- **ChromaDB**: Vector database for semantic search
+- **Python**: Application logic and agent coordination
+
+---
+
+## Repository Contents
+
+* **Core Application**
+  * `main.py` – CLI entry point
+  * `web_app.py` – Web interface and API server
+  * `config.py` – Configuration and constants
+  * `orchestrator.py` – Agent coordination
+
+* **Services**
+  * `llm_service.py` – LLM abstraction (Ollama)
+  * `llm_service_simple.py` – Fallback without LangChain
+  * `knowledge.py` – Vector store management (ChromaDB)
+  * `knowledge_simple.py` – Fallback JSON storage
+  * `twitter_service.py` – Twitter posting and scheduling
+  * `scheduler.py` – Background task scheduler
+
+* **Agents**
+  * `agents/music_agent.py` – Music generation
+  * `agents/billing_agent.py` – Subscription billing
+  * `agents/marketing_agent.py` – Content generation
+
+* **Web Interface**
+  * `templates/index.html` – Dashboard UI
+
+* **Deployment**
+  * `Dockerfile` – Container configuration
+  * `docker-compose.yml` – Multi-service orchestration
+  * `deploy.sh` – Linux/Mac deployment script
+  * `deploy.ps1` – Windows deployment script
+  * `requirements.txt` – Python dependencies
+
+* **Documentation**
+  * `README.md` – This document
+  * `SETUP.md` – Setup and architecture guide
+  * `DEPLOYMENT.md` – Production deployment guide
+  * `IMPROVEMENTS.md` – Refactoring documentation
+
+* **Configuration**
+  * `.env.example` – Environment template
+  * `knowledge_base.json` – Base configuration data
+  * `twitter_schedule.json` – Scheduled posts (generated)
+
+---
+
+**Author:** Juan
+**Challenge:** CloudWalk AI Wizard – Level 2.3
+
+
